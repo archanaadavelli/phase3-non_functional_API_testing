@@ -1,0 +1,325 @@
+{
+	"info": {
+		"_postman_id": "9ec82952-6c5f-4456-baad-85319113538b",
+		"name": "API User Collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8b855de3-bc68-41d9-8b0c-226483c06b1c",
+						"exec": [
+							"",
+							"var jsonData=JSON.parse(responseBody)",
+							"pm.test(\"check body\",function(){",
+							"pm.response.to.have.jsonBody(\"data.email\")",
+							"});",
+							"",
+							"console.log(jsonData);",
+							"pm.environment.set(\"eEmail\",jsonData.data.email);",
+							"console.log(pm.environment.get(\"eEmail\"));",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.id).to.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic postman:password",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{gHostName}}api/users/{{dUserid}}",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users",
+						"{{dUserid}}"
+					]
+				},
+				"description": "Get a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "71c2fcb0-79b9-477c-b3d9-7e38d8a1a1f9",
+						"exec": [
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.page).to.eql(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gHostName}}api/users?page=2&useremail={{eEmail}}",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "useremail",
+							"value": "{{eEmail}}"
+						}
+					]
+				},
+				"description": "Get a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "List User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "67a216bd-dffb-432d-9c89-a4878141df96",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{gHostName}}api/users?page=2&firstname={{eFirstName}}",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "firstname",
+							"value": "{{eFirstName}}"
+						}
+					]
+				},
+				"description": "Get a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "937e46e9-fcfb-4925-959a-3eac9292d17b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"morpheusradar\",\n    \"job\": \"zion resident\"\n}"
+				},
+				"url": {
+					"raw": "{{gHostName}}api/users/2",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users",
+						"2"
+					]
+				},
+				"description": "Update details of the user"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78f296e9-60f7-4008-9880-1be856d06cdd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "04931b5d-2eab-48ff-a5db-9923085cce0e",
+						"exec": [
+							"pm.sendRequest(\"https://reqres.in/api/users/2\", function (err, response) {",
+							"    console.log(response.json());",
+							"    if(response.json().data.id = 2){",
+							"        console.log(\"user found, deleting the user\");",
+							"        pm.environment.set(\"eUserId\",response.json().data.id);",
+							"    }else{",
+							"        console.log(\"user not found, can not delete the user\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+						"key": "Authorization",
+						"value": "Basic postman:password",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{gHostName}}api/users/{{eUserId}}",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users",
+						"{{eUserId}}"
+					]
+				},
+				"description": "Get a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "79926d8a-a702-4e99-b186-6b51f8f93d5c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"morpheusradar\",\n    \"job\": \"leader\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{gHostName}}api/users",
+					"host": [
+						"{{gHostName}}api"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Get a new user"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ce348ba5-405e-4a06-9c4c-de4666dcabb4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2ca600c9-8867-4d40-8a2e-4596ec07805e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "b80c1028-4ab6-45c0-940c-e7ac627e77e2",
+			"key": "cUserid",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"id": "a7a12157-dd3a-49f5-a481-f9bea9cbc148",
+			"key": "cFirstName",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

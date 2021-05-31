@@ -1,0 +1,24 @@
+{
+	"id": "364fa24b-4215-406e-8307-689b3df8311a",
+	"name": "QA2",
+	"values": [
+		{
+			"key": "eEnvVar1",
+			"value": "f100",
+			"enabled": true
+		},
+		{
+			"key": "eFirstName",
+			"value": "",
+			"enabled": true
+		},
+		{
+			"key": "eEmail",
+			"value": "",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-05-14T18:00:42.424Z",
+	"_postman_exported_using": "Postman/7.25.0"
+}
